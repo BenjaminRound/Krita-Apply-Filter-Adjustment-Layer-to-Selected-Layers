@@ -61,3 +61,10 @@ For each selected paint layer, the script automatically performs the following l
 
 *   The script processes layers in reverse order (bottom to top) to maintain stack and layer hierarchy integrity.
 *   Check Krita's script logs for detailed step-by-step progress information.
+---
+
+## 📄 License
+
+This project is licensed under the **GNU General Public License v3.0 (GPL-3.0)**. 
+
+You are free to use, modify, and distribute this script for any personal or commercial artwork. However, if you modify the code and choose to publicly distribute your version, your modifications must also be released openly under the same GPL-3.0 license.
