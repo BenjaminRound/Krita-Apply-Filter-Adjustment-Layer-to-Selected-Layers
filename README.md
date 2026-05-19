@@ -1,142 +1,83 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Apply Filter to Selected Layers - Manual</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        h1 {
-            color: #2c3e50;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-        }
-        h2 {
-            color: #34495e;
-            margin-top: 30px;
-        }
-        .step {
-            background: #ecf0f1;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #3498db;
-        }
-        .warning {
-            background: #fff3cd;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #ffc107;
-        }
-        .note {
-            background: #d1ecf1;
-            padding: 15px;
-            margin: 10px 0;
-            border-left: 4px solid #17a2b8;
-        }
-        code {
-            background: #f8f9fa;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: 'Courier New', monospace;
-        }
-        ul {
-            margin-left: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Apply Filter to Selected Layers</h1>
-    
-    <p>This script applies a filter layer to multiple paint layers individually while preserving their properties like blend mode, opacity, and <strong>Inherit Alpha</strong>.</p>
+Apply Filter to Selected Layers
 
-    <h2>How to Use</h2>
-    
-    <div class="step">
-        <strong>Step 1:</strong> Create or select ONE filter layer (e.g., HSV Adjustment, Blur, Color Adjustment, etc.)
-    </div>
-    
-    <div class="step">
-        <strong>Step 2:</strong> Hold <code>Ctrl</code> (or <code>Cmd</code> on Mac) and select all the paint layers you want to apply the filter to
-    </div>
-    
-    <div class="step">
-        <strong>Step 3:</strong> Go to <code>Tools → Scripts → Apply Filter to Selected Layers</code>
-    </div>
-    
-    <div class="step">
-        <strong>Step 4:</strong> Wait for the script to process. Check the <strong>Scripter</strong> output for progress
-    </div>
+This Krita script applies a single filter layer to multiple paint layers individually while preserving their unique properties like blend mode, opacity, and Inherit Alpha.
+🚀 How to Use
 
-    <h2>What Gets Preserved</h2>
-    <ul>
-        <li><strong>Blend Mode</strong> - The layer's blending mode stays the same</li>
-        <li><strong>Opacity</strong> - The layer's opacity percentage is preserved</li>
-        <li><strong>Inherit Alpha</strong> - Alpha inheritance setting is maintained</li>
-        <li><strong>Lock State</strong> - Locked layers will be locked again after processing</li>
-        <li><strong>Layer Names</strong> - Original names are kept</li>
-    </ul>
+    Step 1: Create or select ONE filter layer (e.g., HSV Adjustment, Blur, Color Adjustment, etc.).
 
-    <h2>How It Works</h2>
-    <p>For each selected paint layer, the script:</p>
-    <ol>
-        <li>Temporarily disables Inherit Alpha (if enabled)</li>
-        <li>Creates an isolated group containing the layer and filter</li>
-        <li>Flattens the group to bake the filter effect</li>
-        <li>Restores all original properties including Inherit Alpha</li>
-    </ol>
+    Step 2: Hold Ctrl (or Cmd on Mac) and select all the paint layers you want to apply the filter to.
 
-    <div class="note">
-        <strong>Note:</strong> The filter layer itself is NOT modified. It's only duplicated and applied to each target layer.
-    </div>
+    Step 3: Go to Tools → Scripts → Apply Filter to Selected Layers.
 
-    <h2>Requirements</h2>
-    <ul>
-        <li>Select <strong>exactly ONE</strong> filter layer</li>
-        <li>Select <strong>one or more</strong> paint layers</li>
-        <li>Layers must have a parent node (not root)</li>
-    </ul>
+    Step 4: Wait for the script to process. Check the Scripter output for real-time progress.
 
-    <div class="warning">
-        <strong>Warning:</strong> This operation cannot be undone easily. Consider duplicating your layers or saving your document before running the script.
-    </div>
+🛠️ Requirements
 
-    <h2>Troubleshooting</h2>
-    
-    <h3>Error: "No active document found"</h3>
-    <p>Make sure you have a document open in Krita.</p>
+    Select exactly ONE filter layer.
 
-    <h3>Error: "Select exactly ONE Filter Layer"</h3>
-    <p>You either didn't select a filter layer, or you selected multiple filter layers. Only select one.</p>
+    Select one or more paint layers.
 
-    <h3>Error: "No valid target paint layers selected"</h3>
-    <p>Make sure you've selected at least one paint layer along with the filter layer.</p>
+    Layers must have a parent node (cannot be at the absolute root of an empty document).
 
-    <h3>Layers appear blank after processing</h3>
-    <p>This shouldn't happen with the current version. If it does, check the Scripter console for error messages and ensure your layers have actual pixel data.</p>
+    ⚠️ Warning: This operation handles destructive flattening and cannot be undone easily with a single Ctrl+Z. Consider duplicating your layers or saving your document before running the script.
 
-    <h2>Example Workflow</h2>
-    <div class="step">
-        <strong>Scenario:</strong> You have 10 character layers and want to apply the same color adjustment to all of them while keeping their Inherit Alpha settings.
-        <ol>
-            <li>Create an Adjustment filter layer</li>
-            <li>Adjust the filter settings as desired</li>
-            <li>Select the filter layer</li>
-            <li>Hold Ctrl and click each of your layers</li>
-            <li>Run the script: <code>Tools → Scripts → Apply Filter to Selected Layers</code></li>
-            <li>All layers will have the filter baked in with properties preserved!</li>
-        </ol>
-    </div>
+🧠 How It Works
 
-    <h2>Tips</h2>
-    <ul>
-        <li>The script processes layers in reverse order (bottom to top) to maintain stack integrity</li>
-        <li>Check the Scripter console for detailed progress information</li>
-    </ul>
+For each selected paint layer, the script automatically performs the following loop:
 
-</body>
-</html>
+    Temporarily disables Inherit Alpha (if enabled) to preserve the image data cache.
+
+    Creates an isolated, temporary group containing the target layer and a duplicate of the filter.
+
+    Flattens the group to cleanly bake the filter effect into those pixels alone.
+
+    Restores all original properties, including snapping Inherit Alpha back on.
+
+    ℹ️ Note: The original filter layer itself is NOT modified or deleted. It is only used as a master template to duplicate from.
+
+✨ What Gets Preserved
+
+    Blend Mode: The layer's original blending mode stays the same.
+
+    Opacity: The layer's exact opacity percentage is preserved.
+
+    Inherit Alpha: Alpha inheritance/clipping mask settings are completely maintained.
+
+    Lock State: Locked layers will be safely re-locked after processing.
+
+    Layer Names: Your original layer names are kept perfectly intact.
+
+🔍 Troubleshooting
+❌ Error: "No active document found"
+
+Make sure you actually have a document canvas open and active in Krita.
+❌ Error: "Select exactly ONE Filter Layer"
+
+You either didn't select a filter layer, or you selected multiple filter layers. Please highlight only one.
+❌ Error: "No valid target paint layers selected"
+
+Make sure you've selected at least one paint layer along with the filter layer.
+🔳 Layers appear blank after processing
+
+This is solved in the current version! If it still happens, check the Log Viewer or Scripter console for error messages and ensure your target layers have actual pixel data on them before running the script.
+📖 Example Workflow
+
+Scenario: You have 10 character/shading layers and want to apply the exact same color adjustment filter to all of them while keeping their current clipping setup and Inherit Alpha settings.
+
+    Create a native Krita Adjustment filter layer.
+
+    Tweak the filter settings until your art looks exactly how you want it.
+
+    Select that filter layer in the docker.
+
+    Hold Ctrl and click each of your 10 artwork layers.
+
+    Run the script: Tools → Scripts → Apply Filter to Selected Layers.
+
+    Result: All 10 layers will have the filter baked directly into them with their properties completely preserved!
+
+💡 Tips
+
+    The script processes layers in reverse order (bottom to top) to maintain stack and layer hierarchy integrity.
+
+    Check Krita's script logs for detailed step-by-step progress information.
