@@ -17,7 +17,6 @@
 
 *   Select **exactly ONE** filter layer.
 *   Select **one or more** paint layers.
-*   Layers must have a parent node (cannot be at the absolute root of an empty document).
 
 > ⚠️ **Warning:** This operation handles destructive flattening and cannot be undone easily with a single `Ctrl+Z`. Consider duplicating your layers or saving your document before running the script.
 
